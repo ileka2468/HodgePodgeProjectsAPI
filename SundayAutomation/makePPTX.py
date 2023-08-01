@@ -1,50 +1,101 @@
+import os
+
+from imagekitio import ImageKit
 from pptx import Presentation
 from pptx.dml.color import RGBColor
-from pptx.util import Pt, Inches, Cm
+from pptx.util import Pt, Inches
 from pptx.enum.text import PP_PARAGRAPH_ALIGNMENT
 
 
 class PowerPointmaker:
+    MAX_CHAR = 388
 
-    def __init__(self, text, date):
-        print(text)
-        print(date)
-        self.prs = Presentation()
+    def __init__(self, data, date):
+        self.date = date
+        self.imagekit = ImageKit(
+            public_key=os.environ.get("IMAGEKIT_PUBLIC_KEY"),
+            private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
+            url_endpoint='https://ik.imagekit.io/smec/'
+        )
 
-        self.blank_slide_layout = self.prs.slide_layouts[6]
-        # self.makeSlides()
+        self.makefirstReadingPPT(data["first_reading"], self.date)
+        self.makePsalmPPT(data["psalm"], self.date)
+        self.makeesecondReadingPPT(data["second_reading"], self.date)
+        self.makeGospelPPT(data["gospel"], self.date)
 
-    def makeSlides(self):
-        for i in range(4):
-            self.prs.slide_width = 11887200
-            self.prs.slide_height = 6686550
-            slide = self.prs.slides.add_slide(self.blank_slide_layout)
-            slide.shapes.add_picture('bg.jpg',  0,0, width=self.prs.slide_width)
+    def makefirstReadingPPT(self, text, date):
+        reading = "First Reading"
+        self.newSlideHelper(text, date, reading)
 
-            txBox = slide.shapes.add_textbox(0, 0, Inches(13), Inches(7))
-            txBox.text_frame.paragraphs[0].alignment = PP_PARAGRAPH_ALIGNMENT.CENTER
-            tf = txBox.text_frame
-            tf.word_wrap = True
-            tf.clear()
+    def makePsalmPPT(self, text, date):
+        reading = "Psalm"
+        self.newSlideHelper(text, date, reading, is_psalm=True)
 
-            p = tf.paragraphs[0]
-            run = p.add_run()
-            run.text = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,"
-            run.font.color.rgb = RGBColor(255, 255, 255)
-            font = run.font
-            font.name = 'Calibri'
-            font.size = Pt(44)
+    def makeesecondReadingPPT(self, text, date):
+        reading = "Second Reading"
+        self.newSlideHelper(text, date, reading)
 
-        self.prs.save('test.pptx')
+    def makeGospelPPT(self, text, date):
+        reading = "Gospel"
+        self.newSlideHelper(text, date, reading)
 
-    def makefirstReadingPowerPoint(self):
-        pass
+    @staticmethod
+    def newSlide(text, layout, prs):
 
-    def makePsalmPowerPoint(self):
-        pass
+        slide = prs.slides.add_slide(layout)
+        slide.shapes.add_picture('bg.jpg', 0, 0, width=prs.slide_width)
 
+        txBox = slide.shapes.add_textbox(0, 0, Inches(13), Inches(7))
+        txBox.text_frame.paragraphs[0].alignment = PP_PARAGRAPH_ALIGNMENT.CENTER
+        tf = txBox.text_frame
+        tf.word_wrap = True
+        tf.clear()
 
+        p = tf.paragraphs[0]
+        run = p.add_run()
+        run.text = text
+        run.font.color.rgb = RGBColor(255, 255, 255)
+        font = run.font
+        font.name = 'Calibri'
 
+        font.size = Pt(44)
 
+    def newSlideHelper(self, text, date, reading_type, is_psalm=False):
+        prs = Presentation()
+        blank_slide_layout = prs.slide_layouts[6]
+        prs.slide_width = 11887200
+        prs.slide_height = 6686550
 
+        char_list = list(text)
+        split_text = []
+        char_counter = 0
+        slide_text = ''
+
+        default_char_size = 395
+        psalm_char_size = 270
+
+        char_size = 0
+
+        if is_psalm:
+            char_size = psalm_char_size
+        else:
+            char_size = default_char_size
+
+        for char in char_list:
+            if char_counter >= char_size:
+                split_text.append(slide_text)
+                slide_text = ''
+                char_counter = 0
+            slide_text += char
+            char_counter += 1
+
+        if slide_text:  # Append the last chunk if it's not empty
+            split_text.append(slide_text)
+
+        print(split_text)
+
+        for text_chunk in split_text:
+            self.newSlide(text_chunk, blank_slide_layout, prs)
+
+        prs.save(f"{reading_type} - {date}.pptx")
 

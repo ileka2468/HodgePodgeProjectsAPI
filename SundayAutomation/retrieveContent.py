@@ -42,9 +42,6 @@ def getDatabaseDates():
     target_month = datetime.datetime.now().month
     target_year = datetime.datetime.now().year
 
-    target_month = 8
-
-
 
     dates_list = []
 
@@ -101,7 +98,8 @@ def grabContent(date, calendars, driver):
                     print("FOUND CORRECT DATE!")
                     td.find_element(By.TAG_NAME, 'a').click()
 
-                    article_list = driver.find_element(By.CLASS_NAME, 'lessonPageMargins').find_elements(By.TAG_NAME, 'article')
+                    article_list = driver.find_element(By.CLASS_NAME, 'lessonPageMargins').find_elements(By.TAG_NAME,
+                                                                                                         'article')
                     article_dict = {}
 
                     for article in article_list:
@@ -132,15 +130,11 @@ def grabContent(date, calendars, driver):
 
                     first_reading = getFirstReading(driver, article_dict["first_reading"])
 
-
                     psalm = getPsalm(driver, article_dict["psalm"])
-
 
                     second_reading = getSecondReading(driver, article_dict["second_reading"])
 
-
                     gospel = getGospel(driver, article_dict["gospel"])
-
 
                     return_data = {
                         "first_reading": first_reading,
@@ -150,7 +144,6 @@ def grabContent(date, calendars, driver):
                     }
 
                     ppmkr = PowerPointmaker(return_data, str(date).split(" ")[0])
-
 
                     driver.back()
 
