@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, update, exists, and_
+from sqlalchemy import create_engine, exists, and_
 from sqlalchemy.orm import sessionmaker
 from database import License, Emails
 import bcrypt

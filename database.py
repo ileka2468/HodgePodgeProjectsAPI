@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, BINARY, INT
+from sqlalchemy import Column, String, BINARY, INT, DATE
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
@@ -28,3 +28,15 @@ class Emails(Base):
         self.email = email
     def __repr__(self):
         return f"Email: {self.email}"
+
+
+class Service(Base):
+    __tablename__ = "service_dates"
+
+    date_id = Column("date_id", INT, primary_key=True, autoincrement=True)
+    date = Column("date", DATE, nullable=False)
+
+    def __init__(self, date):
+        self.date = date
+    def __repr__(self):
+        return f"Date: {self.date}"
