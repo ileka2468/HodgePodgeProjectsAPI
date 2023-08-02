@@ -12,11 +12,6 @@ class PowerPointmaker:
 
     def __init__(self, data, date):
         self.date = date
-        self.imagekit = ImageKit(
-            public_key=os.environ.get("IMAGEKIT_PUBLIC_KEY"),
-            private_key=os.environ.get("IMAGEKIT_PRIVATE_KEY"),
-            url_endpoint='https://ik.imagekit.io/smec/'
-        )
 
         self.makefirstReadingPPT(data["first_reading"], self.date)
         self.makePsalmPPT(data["psalm"], self.date)
@@ -97,5 +92,12 @@ class PowerPointmaker:
         for text_chunk in split_text:
             self.newSlide(text_chunk, blank_slide_layout, prs)
 
-        prs.save(f"{reading_type} - {date}.pptx")
+        if reading_type == "First Reading":
+            prs.save(f"First Readings/{reading_type} - {date}.pptx")
+        elif reading_type == "Psalm":
+            prs.save(f"Psalms/{reading_type} - {date}.pptx")
+        elif reading_type == "Second Reading":
+            prs.save(f"Second Readings/{reading_type} - {date}.pptx")
+        elif reading_type == "Gospel":
+            prs.save(f"Gospels/{reading_type} - {date}.pptx")
 

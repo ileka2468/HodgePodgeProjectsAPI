@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from database import Service
 from sqlalchemy import and_
 from makePPTX import PowerPointmaker
+from UploadPPTX import StartUpload
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -42,7 +43,6 @@ def getDatabaseDates():
     target_month = datetime.datetime.now().month
     target_year = datetime.datetime.now().year
 
-
     dates_list = []
 
     response = session.query(Service).filter(
@@ -55,26 +55,18 @@ def getDatabaseDates():
 
 
 def getFirstReading(driver, article):
-    with open("test.txt", "a") as f:
-        f.write(f"\nFirstreading\n{article.find_element(By.TAG_NAME, 'div').text}\n\n")
     return article.find_element(By.TAG_NAME, 'div').text
 
 
 def getPsalm(driver, article):
-    with open("test.txt", "a") as f:
-        f.write(f"\nSecondreading\n{article.find_element(By.TAG_NAME, 'div').text}\n\n")
     return article.find_element(By.TAG_NAME, 'div').text
 
 
 def getSecondReading(driver, article):
-    with open("test.txt", "a") as f:
-        f.write(f"\nThirdreading\n{article.find_element(By.TAG_NAME, 'div').text}\n\n")
     return article.find_element(By.TAG_NAME, 'div').text
 
 
 def getGospel(driver, article):
-    with open("test.txt", "a") as f:
-        f.write(f"\nGosepl\n{article.find_element(By.TAG_NAME, 'div').text}\n\n")
     return article.find_element(By.TAG_NAME, 'div').text
 
 
@@ -169,6 +161,9 @@ def getReadings():
 
 def main2():
     getReadings()
+    print("Starting File Upload")
+    StartUpload()
+
 
 
 if __name__ == '__main__':
