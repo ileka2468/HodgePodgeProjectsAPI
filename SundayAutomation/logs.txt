@@ -18,3 +18,88 @@ Upload ID: 64c9a1b706370748f2559ad8
 Time: 2023-08-01 19:22:18
 Upload Status:200
 
+Filename: First Reading - 2023-08-06.pptx
+Upload ID: 64c9c53f06370748f2d2f758
+Time: 2023-08-01 21:53:55
+Upload Status:200
+
+Filename: First Reading - 2023-08-13.pptx
+Upload ID: 64c9c54006370748f2d300a7
+Time: 2023-08-01 21:53:55
+Upload Status:200
+
+Filename: First Reading - 2023-08-20.pptx
+Upload ID: 64c9c54106370748f2d305d4
+Time: 2023-08-01 21:53:56
+Upload Status:200
+
+Filename: First Reading - 2023-08-27.pptx
+Upload ID: 64c9c54106370748f2d30b86
+Time: 2023-08-01 21:53:57
+Upload Status:200
+
+Filename: Psalm - 2023-08-06.pptx
+Upload ID: 64c9c54206370748f2d31022
+Time: 2023-08-01 21:53:57
+Upload Status:200
+
+Filename: First Reading - 2023-07-30.pptx
+Upload ID: 64c9c60f06370748f2d672b0
+Time: 2023-08-01 21:57:22
+Upload Status:200
+
+Filename: Psalm - 2023-07-30.pptx
+Upload ID: 64c9c61006370748f2d674ce
+Time: 2023-08-01 21:57:23
+Upload Status:200
+
+Filename: Second Reading - 2023-07-30.pptx
+Upload ID: 64c9c61106370748f2d6773b
+Time: 2023-08-01 21:57:24
+Upload Status:200
+
+Filename: Gospel - 2023-07-30.pptx
+Upload ID: 64c9c61206370748f2d6798c
+Time: 2023-08-01 21:57:25
+Upload Status:200
+
+Filename: First Reading - 2023-07-30.pptx
+Upload ID: 64c9c72106370748f2da7383
+Time: 2023-08-01 22:01:56
+Upload Status:200
+
+Filename: Psalm - 2023-07-30.pptx
+Upload ID: 64c9c72206370748f2da7697
+Time: 2023-08-01 22:01:57
+Upload Status:200
+
+Filename: Second Reading - 2023-07-30.pptx
+Upload ID: 64c9c72306370748f2da7929
+Time: 2023-08-01 22:01:58
+Upload Status:200
+
+Filename: Gospel - 2023-07-30.pptx
+Upload ID: 64c9c72406370748f2da7b55
+Time: 2023-08-01 22:01:59
+Upload Status:200
+
+Filename: First Reading - 2023-07-30.pptx
+Upload ID: 64c9e52306370748f2592e68
+Time: 2023-08-02 00:09:59
+Upload Status:200
+
+Filename: Psalm - 2023-07-30.pptx
+Upload ID: 64c9e52406370748f25930d7
+Time: 2023-08-02 00:10:00
+Upload Status:200
+
+Filename: Second Reading - 2023-07-30.pptx
+Upload ID: 64c9e52506370748f2593311
+Time: 2023-08-02 00:10:01
+Upload Status:200
+
+Filename: Gospel - 2023-07-30.pptx
+Upload ID: 64c9e52606370748f25935bc
+Time: 2023-08-02 00:10:02
+Upload Status:200
+

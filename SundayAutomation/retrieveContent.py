@@ -3,14 +3,17 @@ import os
 from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
-from sqlalchemy import create_engine, extract
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
+
 from database import Service
 from sqlalchemy import and_
 from makePPTX import PowerPointmaker
 from UploadPPTX import StartUpload
+import calendar
+import chromedriver_autoinstaller
 from dotenv import load_dotenv
-
 load_dotenv()
 
 
@@ -42,13 +45,21 @@ def getDatabaseDates():
 
     target_month = datetime.datetime.now().month
     target_year = datetime.datetime.now().year
+    target_month = 7
 
     dates_list = []
 
-    response = session.query(Service).filter(
-        and_(extract('year', Service.date) == target_year, extract('month', Service.date) == target_month))
+    days_in_month = calendar.monthrange(int(target_year), int(target_month))
+    start_date = f"{target_year}-{target_month}-1"
+    end_date = f"{target_year}-{target_month}-{days_in_month[1]}"
 
-    for date in response:
+    results = session.query(Service).filter(and_(Service.date >= start_date, Service.date <= end_date, Service.status == 0)).all()
+    print(results)
+
+    if len(results) == 0:
+        return "All Content already done for this month"
+
+    for date in results:
         dates_list.append(str(date)[str(date).find(" ") + 1:])
 
     return dates_list
@@ -143,27 +154,34 @@ def grabContent(date, calendars, driver):
                 pass
 
 
+
 def getReadings():
+    chromedriver_autoinstaller.install()
     driver = webdriver.Chrome()
     driver.get("https://lectionarypage.net/")
 
     '''
     Using the current date will be temporary as production code will query the database for all the sundays in the
-    current month
+    current month.
     '''
 
     target_dates = getDatabaseDates()
-    calendars = getCalendars(driver)
+    if target_dates == "All Content already done for this month":
+        return "All Content already done for this month"
+    else:
+        calendars = getCalendars(driver)
 
-    for date in target_dates:
-        grabContent(date, calendars, driver)
+        for date in target_dates:
+            grabContent(date, calendars, driver)
 
 
 def main2():
-    getReadings()
+    dates = getReadings()
+    if dates == "All Content already done for this month":
+        print("No dates to fufill currently")
+        return
     print("Starting File Upload")
     StartUpload()
-
 
 
 if __name__ == '__main__':

@@ -8,4 +8,4 @@ uvicorn==0.23.1
 mysqlclient==2.2.0
 sendgrid==6.10.0
 imagekitio~=3.1.0
-selenium==4.10.0
+selenium==4.11.2

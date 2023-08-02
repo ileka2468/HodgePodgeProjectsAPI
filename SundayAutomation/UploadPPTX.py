@@ -3,6 +3,9 @@ import os
 import dotenv
 from imagekitio import ImageKit
 from imagekitio.models.UploadFileRequestOptions import UploadFileRequestOptions
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database import Service
 
 dotenv.load_dotenv()
 
@@ -14,6 +17,9 @@ def StartUpload():
 
 
 def upload(file_list, tag):
+    engine = create_engine(os.environ.get('EMAIL_DB'), pool_recycle=3600)
+    Session = sessionmaker(bind=engine)
+    session = Session()
 
     for file in file_list:
         foldername = file[file.find("-") + 1: file.find(".")].strip()
@@ -33,12 +39,16 @@ def upload(file_list, tag):
                 use_unique_file_name=False,
                 folder=f"smec_readings/{foldername}"
             )
-
         )
-
+        target_date = file[file.find("-") + 1: file.find(".")].strip()
+        record_to_update = session.query(Service).filter(Service.date == target_date).first()
+        record_to_update.status = 1
+        record_to_update.content = up.url
         with open("logs.txt", "a") as logger:
-            logger.write(f"Filename: {file}\nUpload ID: {up.file_id}\nTime: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\nUpload Status:{up.response_metadata.http_status_code}\n\n")
+            logger.write(
+                f"Filename: {file}\nUpload ID: {up.file_id}\nTime: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\nUpload Status:{up.response_metadata.http_status_code}\n\n")
 
+    session.commit()
 
 def grabFile():
     # probably refactor this an use a loop but tbh who cares...

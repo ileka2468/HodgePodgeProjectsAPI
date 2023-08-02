@@ -35,6 +35,8 @@ class Service(Base):
 
     date_id = Column("date_id", INT, primary_key=True, autoincrement=True)
     date = Column("date", DATE, nullable=False)
+    status = Column("status", nullable=False)
+    content = Column("content", nullable=True)
 
     def __init__(self, date):
         self.date = date
