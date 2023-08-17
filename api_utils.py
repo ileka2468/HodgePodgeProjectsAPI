@@ -15,7 +15,7 @@ class apiUtils:
     async def verifyUser(self, provided_key, machine_id):
         print(provided_key, machine_id)
 
-        key_hash = bcrypt.hashpw(provided_key.encode(' dutf-8'), self.salt)
+        key_hash = bcrypt.hashpw(provided_key.encode(' utf-8'), self.salt)
         response = self.session.query(exists().where(and_(License.mid == machine_id, License.key == key_hash))).scalar()
 
         print(f"The response from the database was {response}")
